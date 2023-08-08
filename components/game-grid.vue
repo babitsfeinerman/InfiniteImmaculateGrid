@@ -15,35 +15,43 @@
             <img :src="teams[1][0][0]" :class="$style.label" />
         </div>
         <div v-if="gridStatus['s00'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s00'].rarity_score }}%</div>
           <img :src="gridStatus['s00'].picture" :class="$style['player-image']" :alt="gridStatus['s00'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s00'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s00')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s01'] != false" :class="$style.imageContainer">
+            <div :class="$style.rarityScore">{{ gridStatus['s01'].rarity_score }}%</div>
             <img :src="gridStatus['s01'].picture" :class="$style['player-image']" :alt="gridStatus['s01'].name + ' photo'">
             <div :class="$style.playerName">{{ gridStatus['s01'].name }}</div>
         </div>
         <button v-else @click="buttonClicked('s01')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s02'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s02'].rarity_score }}%</div>
           <img :src="gridStatus['s02'].picture" :class="$style['player-image']" :alt="gridStatus['s02'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s02'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s02')" :class="$style['grid-item']" :disabled="gameOver"></button>
-        <div></div> <!-- Empty grid cell -->
+        <div :class="$style['share-button-container']" @click="shareGrid" >
+          <img src="~/static/share.png" alt="Share Logo" :class="$style['share-button']" />
+        </div>
         <div v-if="teams.length > 1 && teams[1].length > 0" :class="$style['label-container']">
             <img :src="teams[1][1][0]" :class="$style.label" />
         </div>
         <div v-if="gridStatus['s10'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s10'].rarity_score }}%</div>
           <img :src="gridStatus['s10'].picture" :class="$style['player-image']" :alt="gridStatus['s10'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s10'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s10')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s11'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s11'].rarity_score }}%</div>
           <img :src="gridStatus['s11'].picture" :class="$style['player-image']" :alt="gridStatus['s11'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s11'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s11')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s12'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s12'].rarity_score }}%</div>
           <img :src="gridStatus['s12'].picture" :class="$style['player-image']" :alt="gridStatus['s12'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s12'].name }}</div>
       </div>
@@ -56,16 +64,19 @@
             <img :src="teams[1][2][0]" :class="$style.label" />
         </div>
         <div v-if="gridStatus['s20'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s20'].rarity_score }}%</div>
           <img :src="gridStatus['s20'].picture" :class="$style['player-image']" :alt="gridStatus['s20'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s20'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s20')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s21'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s21'].rarity_score }}%</div>
           <img :src="gridStatus['s21'].picture" :class="$style['player-image']" :alt="gridStatus['s21'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s21'].name }}</div>
       </div>
         <button v-else @click="buttonClicked('s21')" :class="$style['grid-item']" :disabled="gameOver"></button>
         <div v-if="gridStatus['s22'] != false" :class="$style.imageContainer">
+          <div :class="$style.rarityScore">{{ gridStatus['s22'].rarity_score }}%</div>
           <img :src="gridStatus['s22'].picture" :class="$style['player-image']" :alt="gridStatus['s22'].name + ' photo'">
           <div :class="$style.playerName">{{ gridStatus['s22'].name }}</div>
       </div>
@@ -98,6 +109,25 @@
             font-size: 10px !important;
             height: 100% !important;
         }
+
+        .rarityScore {
+            font-size: 8px !important;
+        }
+    }
+
+    .share-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .share-button {
+        width: 50%;
+        height: 50%;
+        object-fit: cover;
+        cursor: pointer;
     }
 
     .grid {
@@ -167,7 +197,7 @@
 
     .player-image {
         grid-column: span 1;
-        width: 55%;
+        width: 50%;
         object-fit: cover;
         /* Add any additional styles for the player images here */
     }
@@ -200,6 +230,16 @@
         font-family: 'Roboto', sans-serif;
         font-weight: 700;
     }
+
+.rarityScore {
+  color: white; /* Choose color according to your preference */
+  background: rgba(0,0,0,0.6); /* Add a dark background for the text to be visible */
+  width: 20%;
+  text-align: center; /* To center the text */
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  align-self: last baseline;
+}
 </style>
 
 <script>
@@ -233,11 +273,22 @@ export default {
     },
     newGame () {
       parent.location.reload()
+    },
+    shareGrid () {
+      EventBus.$emit('show-share-popup')
+      console.log('emitted share popup')
     }
   },
   async created () {
-    const { data } = await this.$axios.get('/get_new_grid')
-    this.teams = data
+    let data = ''
+    if (this.$route.query.id !== undefined) {
+      data = await this.$axios.get(`/get_shared_grid?id=${this.$route.query.id}`)
+      this.teams = data.data
+    } else {
+      data = await this.$axios.get('/get_new_grid')
+      this.teams = data.data
+    }
+    this.$store.commit('setGrid', data.data)
     EventBus.$on('player-selected', async () => {
       const player = this.$store.state.selectedPlayer
       for (const keys in this.gridStatus) {
@@ -251,7 +302,6 @@ export default {
       let team1 = ''
       let team2 = ''
       let location = ''
-      console.log(this.$store.state.selectedGridLocation)
       switch (this.$store.state.selectedGridLocation) {
         case 's00':
           team1 = this.teams[0][0][1]

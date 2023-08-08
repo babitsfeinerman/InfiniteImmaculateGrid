@@ -1,3 +1,4 @@
+const path = require('path')
 const env = "prod"; // dev, prod
 let baseURL;
 
@@ -23,6 +24,15 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap' }
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
+    script: [
+      { src: 'https://www.googletagmanager.com/gtag/js?id=G-G9XV3ZYH0B', async: true },
+      {
+        innerHTML: `if (top !== self) top.location.replace(self.location.href);`,
+        type: 'text/javascript',
+        charset: 'utf-8'
+      }
     ]
   },
 
@@ -37,7 +47,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vercel.js', mode: 'client'}
+    { src: '~/plugins/vercel.js', mode: 'client'},
+    { src: '~/plugins/gtm.js', mode: 'client' },
+    { src: '~/plugins/directives.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,7 +58,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -77,5 +90,19 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, { isDev, isClient }) {
+      // Run Babel on vue2-gtm in node_modules
+      config.module.rules.push({
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [
+          path.resolve(__dirname, 'node_modules/@gtm-support/vue2-gtm'),
+          path.resolve(__dirname, 'node_modules/@gtm-support/core')
+        ],
+        options: {
+          presets: ['@babel/preset-env']
+        }
+      })
+    }
   }
 }
